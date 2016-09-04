@@ -16,6 +16,9 @@ class ReplTest < Minitest::Test
 
   def test_can_return_csv
 
-    assert_equal @a.contents, @r.list.contents
+  end
+
+  def test_can_load_default
+
   end
 end
