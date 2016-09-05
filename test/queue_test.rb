@@ -17,15 +17,16 @@ class QueueTest < Minitest::Test
     assert_equal "11/12/08 10:47", contents[0][1]
   end
 
-  def test_data_array
-    assert_equal Array, @q.data.class
-    assert_equal CSV::Table, @q.load_data
+  def test_data
+    assert_equal CSV::Table, @q.data.class
   end
 
-  def test_data_holds_data
+  def test_can_read_q
+    assert_equal "11/12/08 10:47", @q.data[0][1]
+  end
 
-    assert_instance_of Array, @q.load_data
-    assert_equal "11/12/08 10:47", contents[0][1]
+  def test_will_return_downcase
+    assert_equal , @q.iterate("AlLiSon")
   end
 
 end

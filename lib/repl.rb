@@ -20,10 +20,11 @@ class Repl
       when 'load' then puts "Please enter file name you would like to load:"
         file_name = gets.chomp
         if file_name == ""
-          Queue.new.load_data
+          loaded = Queue.new
+            loaded.queue_input
         else
           full_file_name = "./data/#{(file_name)}"
-          Queue.new.load_data(full_file_name)
+          Queue.new(full_file_name)
         end
       when 'help' then puts "Which command would you like help with?\n\nload\n\nqueue\n\nfind"
         help = gets.chomp
