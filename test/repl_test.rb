@@ -14,11 +14,4 @@ class ReplTest < Minitest::Test
     assert_instance_of Repl, @r
   end
 
-  def test_can_return_csv
-
-  end
-
-  def test_can_load_default
-
-  end
 end

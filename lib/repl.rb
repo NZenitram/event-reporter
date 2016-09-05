@@ -1,12 +1,13 @@
-require './lib/attendees'
+
+require './lib/load_file'
 require './lib/help_file'
+require './lib/queue'
 require 'pry'
 
 class Repl
-  attr_reader
-
+  attr_reader :queue
   def initialize
-
+    @queue = Queue
   end
 
   def run
@@ -19,19 +20,20 @@ class Repl
       when 'load' then puts "Please enter file name you would like to load:"
         file_name = gets.chomp
         if file_name == ""
-          LoadFile.new("./data/event_attendees.csv")
+          Queue.new.load_data
         else
-          LoadFile.new "./data/#{file_name}"
+          full_file_name = "./data/#{(file_name)}"
+          Queue.new.load_data(full_file_name)
         end
-      when 'help' then puts "Which command would you like help with?\n\nload\n\nqueue\n\nfind\n"
+      when 'help' then puts "Which command would you like help with?\n\nload\n\nqueue\n\nfind"
         help = gets.chomp
         if help == "load"
           HelpFile.new.load_text
         elsif help == "find"
           HelpFile.new.find_text
+        elsif help == "queue"
+          HelpFile.new.queue_text
         end
-
-
       else
         puts "Sorry, I don't know how to #{command}"
     end
