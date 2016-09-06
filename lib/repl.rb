@@ -20,6 +20,7 @@ class Repl
       when 'load' then puts "Please enter file name you would like to load:"
         file_name = gets.chomp
         if file_name == ""
+          printf "#{HelpFile.new.queue_text}"
           loaded = Queue.new
             loaded.queue_input
         else
