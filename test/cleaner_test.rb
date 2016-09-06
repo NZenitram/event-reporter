@@ -24,6 +24,16 @@ class CleanerTest < Minitest::Test
     assert_equal "12345", @c.clean_zip("12345")
   end
 
+  def test_can_clean_phonenumber
+    assert_equal "0000000000", @c.clean_phone(nil)
+    assert_equal "0000000000", @c.clean_phone("")
+    assert_equal "6033053000", @c.clean_phone("(603) 305-3000")
+    assert_equal "0000000000", @c.clean_phone("9.82E+00")
+  end
+
+  def test_can_fix_state
+  end
+
 
 
 end

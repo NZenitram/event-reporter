@@ -1,20 +1,13 @@
-class Cleaner
+require 'pry'
+
+module Cleaner
 
 
-  def clean_zip(zipcode)
+  def Cleaner.clean_zip(zipcode)
     zipcode.to_s.rjust(5,"0")[0..4]
-    # if zipcode.nil?
-    #   zipcode = "00000"
-    # elsif zipcode.length < 5
-    #   zipcode = zipcode.rjust 5, "0"
-    # elsif zipcode.length > 5
-    #   zipcode = zipcode[0..4]
-    # else
-    #   zipcode
-    # end
   end
 
-  def clean_name(name)
+  def Cleaner.clean_name(name)
     if name == nil
        name = "none"
     elsif
@@ -22,6 +15,19 @@ class Cleaner
       name = "none"
     else
       name = name.downcase
+    end
+  end
+
+  def Cleaner.clean_phone(num)
+    if num == nil
+      num = "0000000000"
+    elsif num == ""
+      num = "0000000000"
+    elsif num.length <= 10
+      num = "0000000000"
+    else
+      num = num.gsub(/\D/, '')
+      num.rjust(10, "0")
     end
   end
 
