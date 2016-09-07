@@ -8,7 +8,7 @@ class Queue
   include Cleaner
 
   attr_reader :data, :results
-  def initialize(file_name = "./data/event_attendees.csv")
+  def initialize(file_name = "./data/full_event_attendees.csv")
     @data = LoadFile.new(file_name).contents
     @results = []
   end
@@ -28,7 +28,6 @@ class Queue
   end
 
   def cleaned_data
-    # people = []
       data.map do |row|
       attendee = Attendees.new
       attendee.regdate       = row[:regdate]
@@ -47,23 +46,38 @@ class Queue
 
 
   def queue(attribute = nil, criteria = nil)
-    queued_attendees = []
+    @queued_attendees = []
     cleaned_data.each do |attendee|
       if attendee.send(attribute) == criteria
-        queued_attendees << attendee
+        @queued_attendees << attendee
       end
     end
-    queued_attendees
+    @queued_attendees
   end
 
-def print_queue
-binding.pry
-end
+  def count
+    if @queued_attendees == nil
+      @queued_attendees = 0
+    else
+      @queued_attendees.count
+    end
+  end
+
+  def clear
+    @queued_attendees.clear
+  end
+
+  def prints
+    @queued_attendees.each do |prints|
+      
+  end
 
 
 end
-
+#
 q = Queue.new
 
 
-puts q.queue(:first_name, "sarah")
+q.queue("first_name", "sarah")
+
+q.prints

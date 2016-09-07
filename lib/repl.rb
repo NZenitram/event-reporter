@@ -12,20 +12,33 @@ class Repl
 
   def run
     command = ""
-    while command != "q"
+    while command != "quit"
       printf "Enter command, or type 'help' for a list of commands: "
-      command = gets.chomp
-    case command
-      when 'q' then puts "Goodbye!"
-      when 'load' then puts "Please enter file name you would like to load:"
-        file_name = gets.chomp
-        if file_name == ""
-          printf "#{HelpFile.new.queue_text}"
-          loaded = Queue.new
-            loaded.queue_input
+      command = gets.chomp.split(" ")
+    case command[0]
+    when 'quit' then abort
+      when 'load'
+        if command[1] == nil
+          @loaded = Queue.new
         else
-          full_file_name = "./data/#{(file_name)}"
-          Queue.new(full_file_name)
+          full_file_name = "./data/#{command[1]}"
+          @loaded = Queue.new(full_file_name)
+        end
+      when 'find'
+        # binding.pry
+        @loaded.queue(command[1], command[2])
+      when 'queue'
+        if command[1] == nil
+          HelpFile.new.queue_text
+        elsif
+          command[1] == "count"
+          puts @loaded.count
+        elsif
+          command[1] == "clear"
+          @loaded.clear
+        elsif
+          command[1] == "print"
+          @loaded.print
         end
       when 'help' then puts "Which command would you like help with?\n\nload\n\nqueue\n\nfind"
         help = gets.chomp
