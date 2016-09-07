@@ -1,13 +1,13 @@
 require 'csv'
 require './lib/load_file'
 require './lib/cleaner'
-require_relative 'attendees'
+require './lib/attendees'
 require 'pry'
 
 class Queue
-include Cleaner
+  include Cleaner
 
-  attr_reader :data, :cleaner, :results
+  attr_reader :data, :results
   def initialize(file_name = "./data/event_attendees.csv")
     @data = LoadFile.new(file_name).contents
     @results = []
@@ -27,8 +27,9 @@ include Cleaner
     end
   end
 
-  def iterate
-    data.each do |row|
+  def cleaned_data
+    # people = []
+      data.map do |row|
       attendee = Attendees.new
       attendee.regdate       = row[:regdate]
       attendee.first_name    = Cleaner.clean_name(row[:first_name])
@@ -39,18 +40,30 @@ include Cleaner
       attendee.city          = Cleaner.clean_name(row[:city])
       attendee.state         = Cleaner.clean_name(row[:state])
       attendee.zipcode       = Cleaner.clean_zip(row[:zipcode])
-      @results << attendee
+      attendee
     end
+  # people
   end
 
-  def find(attribute, criteria)
-    @results.each do |find|
-      
-    binding.pry
+
+  def queue(attribute = nil, criteria = nil)
+    queued_attendees = []
+    cleaned_data.each do |attendee|
+      if attendee.send(attribute) == criteria
+        queued_attendees << attendee
+      end
+    end
+    queued_attendees
   end
+
+def print_queue
+binding.pry
+end
+
 
 end
 
 q = Queue.new
 
-q.find()
+
+puts q.queue(:first_name, "sarah")
