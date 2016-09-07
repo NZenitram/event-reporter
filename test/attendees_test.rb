@@ -2,24 +2,28 @@ require 'minitest/autorun'
 require 'minitest/pride'
 require 'pry'
 require './lib/attendees'
+require './lib/load_file'
 
 class AttendeesTest < Minitest::Test
 
+
   def setup
-    @a = Attendees.new
+               {  regdate:       "11/12/08 10:47",
+                  first_name:    "Allison",
+                  last_name:     "Nguyen",
+                  email_address: "arannon@jumpstartlab.com",
+                  homephone:     "6154385000",
+                  street:        "3155 19th St NW",
+                  city:          "Washington",
+                  state:         "DC",
+                  zipcode:       "20010"
+                }
+
   end
 
-  def tests_if_exists
-    assert_instance_of Attendees, @a
+  def test_will_return_downcase
+    assert_equal[:regdate], attendees.regdate
+    assert_equal[:first_name], attendees.first_name
   end
-
-  def test_can_get_contents
-
-    contents = Attendees.new.contents
-
-    assert_instance_of Array, contents
-    assert_equal "RegDate", contents[0][1]
-  end
-
 
 end

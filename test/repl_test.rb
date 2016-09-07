@@ -14,8 +14,4 @@ class ReplTest < Minitest::Test
     assert_instance_of Repl, @r
   end
 
-  def test_can_return_csv
-
-    assert_equal @a.contents, @r.list.contents
-  end
 end
