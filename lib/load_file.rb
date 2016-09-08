@@ -6,13 +6,6 @@ class LoadFile
   def initialize(file_name = "./data/full_event_attendees.csv" )
       @contents = CSV.read (file_name), headers: true, header_converters: :symbol
   end
-
-
-
-
-
-
-
 end
 
 a = LoadFile.new

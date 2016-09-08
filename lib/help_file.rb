@@ -15,4 +15,16 @@ class HelpFile
 'count'\n'clear'\n'distinct'\n'print'\n'print by attribute'\n'save to <filename.csv>'\n'export to html file <filename.html>'"
   end
 
+  def queue_print
+       p '                          --------------------------------------------                              '
+    puts "Queue print displays the information of the people entered in the queue based on your find criteria."
+       p '                          --------------------------------------------                              '
+  end
+
+  def queue_count
+       p '                       --------------------------------------------                        '
+    puts "Queue count displays the number of people entered in the queue based on your find criteria."
+       p '                       --------------------------------------------                        '  
+  end
+
 end

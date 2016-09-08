@@ -1,4 +1,6 @@
 require 'csv'
+require 'json'
+require 'open-uri'
 require './lib/load_file'
 require './lib/cleaner'
 require './lib/attendees'
@@ -10,21 +12,6 @@ class Queue
   attr_reader :data, :results
   def initialize(file_name = "./data/full_event_attendees.csv")
     @data = LoadFile.new(file_name).contents
-    @results = []
-  end
-
-  def queue_input
-    input = ""
-
-    input = gets.chomp
-    case input
-    when 'find'
-      input
-    when 'queue count' then puts @results.count
-    when 'print' then puts @data
-      else
-        puts "Sorry I don't have that #{input}"
-    end
   end
 
   def cleaned_data
@@ -39,11 +26,10 @@ class Queue
       attendee.city          = Cleaner.clean_name(row[:city])
       attendee.state         = Cleaner.clean_name(row[:state])
       attendee.zipcode       = Cleaner.clean_zip(row[:zipcode])
+      attendee.district      = ""
       attendee
     end
-  # people
   end
-
 
   def queue(attribute = nil, criteria = nil)
     @queued_attendees = []
@@ -64,20 +50,46 @@ class Queue
   end
 
   def clear
-    @queued_attendees.clear
+    if @queued_attendees == nil
+      return
+    else
+      @queued_attendees.clear
+    end
   end
 
-  def prints
-    @queued_attendees.each do |prints|
-      
+  def prints(queued = @queued_attendees)
+    district_replacement if @queued_attendees.length < 11
+    puts "RegDate".ljust(15) +  "First Name".ljust(15) + "Last Name".ljust(15) + "Email".ljust(45) + "Phone".ljust(15) + "Street".ljust(45) + "City".ljust(37) + "State".ljust(10) + "Zipcode".ljust(15)
+    queued.map do |row|
+      attendees = row.regdate.ljust(15) + row.first_name.capitalize.ljust(15) + row.last_name.capitalize.ljust(15) + row.email_address.ljust(45) + row.homephone.ljust(15) + row.street.upcase.ljust(45) + row.city.capitalize.ljust(37) + row.state.upcase.ljust(10) + row.zipcode.ljust(15) + row.district
+      puts attendees
+    end
   end
 
+  def print_by(attribute)
+    @alpha_sort = @queued_attendees.sort_by {|att| att.send(attribute)}
+      prints(@alpha_sort)
+  end
 
+  def save_to(file_name)
+    file = []
+    CSV.open("./data/#{file_name}", "w") do |file|
+      file << ["regdate", "first_name", "last_name", "email_address", "homephone", "street", "city", "state", "zipcode"]
+      @queued_attendees.each do |pop|
+        file << [pop.regdate, pop.first_name.capitalize, pop.last_name.capitalize, pop.email_address, pop.homephone, pop.street.upcase, pop.city.capitalize, pop.state.capitalize, pop.zipcode]
+      end
+    end
+  end
+
+  def district_replacement
+    @queued_attendees.each do |att|
+      url = "https://congress.api.sunlightfoundation.com/districts/locate?zip=#{att.zipcode}&apikey=e179a6973728c4dd3fb1204283aaccb5"
+      data = JSON.parse(open(url).read)
+      att.district = data["results"].first["district"].to_s
+    end
+  end
 end
 #
 q = Queue.new
 
-
-q.queue("first_name", "sarah")
-
-q.prints
+# q.queue("first_name", "john")

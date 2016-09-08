@@ -7,10 +7,12 @@ require 'pry'
 class Repl
   attr_reader :queue
   def initialize
-    @queue = Queue
+    @queue = Queue.new
+    @help = HelpFile.new
   end
 
   def run
+    line = '--------------------------------'
     command = ""
     while command != "quit"
       printf "Enter command, or type 'help' for a list of commands: "
@@ -25,37 +27,55 @@ class Repl
           @loaded = Queue.new(full_file_name)
         end
       when 'find'
-        # binding.pry
-        @loaded.queue(command[1], command[2])
+        if @loaded == nil
+          @loaded.to_s
+        elsif
+        @loaded.queue(command[1], command[2..-1].join(" ").downcase)
+        end
       when 'queue'
         if command[1] == nil
-          HelpFile.new.queue_text
+          @help.queue_text
         elsif
           command[1] == "count"
-          puts @loaded.count
+          if @loaded == nil
+          puts 0
+          elsif
+            puts @loaded.count
+          end
         elsif
           command[1] == "clear"
-          @loaded.clear
+          if @loaded == nil
+            @loaded.to_s
+          elsif
+            @loaded.clear
+          end
         elsif
           command[1] == "print"
-          @loaded.print
+          @loaded.prints
+        elsif
+          command[1] == "save"
+          if @loaded == nil
+            @loaded.to_s
+          elsif
+          @loaded.save_to(command[3])
+          end
         end
-      when 'help' then puts "Which command would you like help with?\n\nload\n\nqueue\n\nfind"
-        help = gets.chomp
-        if help == "load"
-          HelpFile.new.load_text
-        elsif help == "find"
-          HelpFile.new.find_text
-        elsif help == "queue"
-          HelpFile.new.queue_text
+      when 'help'
+        if command[1] == nil
+           puts "Which command would you like help with?\n\nload\n\nqueue count/print\n\nfind"
+        elsif
+          command[1] + command[2] == "queuecount"
+            @help.queue_count
+        else
+          command[1] + command[2] == "queueprint"
+            @help.queue_print
         end
       else
         puts "Sorry, I don't know how to #{command}"
     end
     end
   end
-
-end
+ end
 
 repl = Repl.new
 
