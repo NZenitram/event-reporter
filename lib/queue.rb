@@ -68,16 +68,27 @@ class Queue
   end
 
   def prints
-    @queued_attendees.each do |prints|
-      
+    @queued_attendees.map do |row|
+      attendees = row.regdate + row.first_name + row.last_name + row.email_address + row.homephone + row.street + row.city + row.state + row.zipcode
+    puts attendees
+    end
   end
 
+  def save_to(file_name)
+    file = []
+    CSV.open("#{file_name}.csv", "w") do |file|
+      file << ["regdate", "first_name", "last_name", "email_address", "homephone", "street", "city", "state", "zipcode"]
+      @queued_attendees.each do |pop|
+        file << [pop.regdate, pop.first_name, pop.last_name, pop.email_address, pop.homephone, pop.street, pop.city, pop.state, pop.zipcode]
+      end
+    end
+  end
 
 end
 #
 q = Queue.new
 
-
+#
 q.queue("first_name", "sarah")
 
-q.prints
+q.save_to("sample1")

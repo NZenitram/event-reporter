@@ -11,5 +11,4 @@ class Attendees
                 :city,
                 :state,
                 :zipcode
-
 end
