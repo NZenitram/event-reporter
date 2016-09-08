@@ -27,7 +27,11 @@ class Repl
           @loaded = Queue.new(full_file_name)
         end
       when 'find'
+        if @loaded == nil
+          @loaded.to_s
+        elsif
         @loaded.queue(command[1], command[2..-1].join(" ").downcase)
+        end
       when 'queue'
         if command[1] == nil
           @help.queue_text
@@ -35,7 +39,7 @@ class Repl
           command[1] == "count"
           if @loaded == nil
           puts 0
-        elsif
+          elsif
             puts @loaded.count
           end
         elsif
@@ -50,7 +54,11 @@ class Repl
           @loaded.prints
         elsif
           command[1] == "save"
+          if @loaded == nil
+            @loaded.to_s
+          elsif
           @loaded.save_to(command[3])
+          end
         end
       when 'help'
         if command[1] == nil
@@ -67,8 +75,7 @@ class Repl
     end
     end
   end
-
-end
+ end
 
 repl = Repl.new
 
