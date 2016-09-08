@@ -25,8 +25,15 @@ class QueueTest < Minitest::Test
     assert_equal "11/12/08 10:47", @q.data[0][1]
   end
 
-  def test_will_return_downcase
-    assert_equal , @q.iterate("AlLiSon")
+  def test_cleaned_data
+    list = @q.queue("first_name", "jOHn")
+    assert_equal Array, list.class
   end
+
+  def test_can_return_list_of_johns
+    list = @q.queue("first_name", "john")
+    assert_equal 63, @q.count
+  end
+
 
 end

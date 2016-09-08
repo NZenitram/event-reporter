@@ -28,10 +28,4 @@ class CleanerTest < Minitest::Test
     assert_equal "6033053000", Cleaner.clean_phone("(603) 305-3000")
     assert_equal "0000000000", Cleaner.clean_phone("9.82E+00")
   end
-
-  def test_can_fix_state
-  end
-
-
-
 end

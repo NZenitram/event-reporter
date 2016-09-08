@@ -12,6 +12,7 @@ class Repl
   end
 
   def run
+    line = '--------------------------------'
     command = ""
     while command != "quit"
       printf "Enter command, or type 'help' for a list of commands: "
@@ -26,16 +27,24 @@ class Repl
           @loaded = Queue.new(full_file_name)
         end
       when 'find'
-        @loaded.queue(command[1], command[2..-1].join(" "))
+        @loaded.queue(command[1], command[2..-1].join(" ").downcase)
       when 'queue'
         if command[1] == nil
           @help.queue_text
         elsif
           command[1] == "count"
-          puts @loaded.count
+          if @loaded == nil
+          puts 0
+        elsif
+            puts @loaded.count
+          end
         elsif
           command[1] == "clear"
-          @loaded.clear
+          if @loaded == nil
+            @loaded.to_s
+          elsif
+            @loaded.clear
+          end
         elsif
           command[1] == "print"
           @loaded.prints

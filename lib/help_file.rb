@@ -16,11 +16,15 @@ class HelpFile
   end
 
   def queue_print
+       p '                          --------------------------------------------                              '
     puts "Queue print displays the information of the people entered in the queue based on your find criteria."
+       p '                          --------------------------------------------                              '
   end
 
   def queue_count
+       p '                       --------------------------------------------                        '
     puts "Queue count displays the number of people entered in the queue based on your find criteria."
+       p '                       --------------------------------------------                        '  
   end
 
 end

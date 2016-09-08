@@ -10,5 +10,6 @@ class Attendees
                 :street,
                 :city,
                 :state,
-                :zipcode
+                :zipcode,
+                :district
 end
