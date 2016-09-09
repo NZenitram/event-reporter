@@ -1,5 +1,3 @@
-require 'pry'
-
 class HelpFile
 
   def load_text
@@ -24,7 +22,7 @@ class HelpFile
   def queue_count
        p '                       --------------------------------------------                        '
     puts "Queue count displays the number of people entered in the queue based on your find criteria."
-       p '                       --------------------------------------------                        '  
+       p '                       --------------------------------------------                        '
   end
 
 end

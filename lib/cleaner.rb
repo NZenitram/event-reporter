@@ -1,10 +1,8 @@
 require 'csv'
-require 'pry'
 require './lib/load_file'
 
 
 module Cleaner
-
 
   def Cleaner.clean_zip(zipcode)
     zipcode.to_s.rjust(5,"0")[0..4]

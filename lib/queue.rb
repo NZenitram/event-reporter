@@ -5,7 +5,6 @@ require 'erb'
 require './lib/load_file'
 require './lib/cleaner'
 require './lib/attendee'
-require 'pry'
 
 class Queue
   include Cleaner
@@ -49,9 +48,9 @@ class Queue
 
   def prints(queued = @queued_attendees)
     district_replacement if @queued_attendees.length < 11
-    puts "RegDate".ljust(15) +  "First Name".ljust(15) + "Last Name".ljust(15) + "Email".ljust(45) + "Phone".ljust(15) + "Street".ljust(45) + "City".ljust(37) + "State".ljust(10) + "Zipcode".ljust(15)
+    puts "LAST NAME".ljust(15) + "FIRST NAME".ljust(15) + "EMAIL".ljust(45) + "PHONE".ljust(15) + "STREET".ljust(45) + "CITY".ljust(37) + "STATE".ljust(10) + "ZIPCODE".ljust(15)
     queued.map do |row|
-      attendees = row.regdate.ljust(15) + row.first_name.capitalize.ljust(15) + row.last_name.capitalize.ljust(15) + row.email_address.ljust(45) + row.homephone.ljust(15) + row.street.upcase.ljust(45) + row.city.capitalize.ljust(37) + row.state.upcase.ljust(10) + row.zipcode.ljust(15) + row.district
+      attendees = row.last_name.capitalize.ljust(15) + row.first_name.capitalize.ljust(15) + row.email_address.ljust(45) + row.homephone.ljust(15) + row.street.upcase.ljust(45) + row.city.capitalize.ljust(37) + row.state.upcase.ljust(10) + row.zipcode.ljust(15) + row.district
       puts attendees
     end
   end
@@ -71,12 +70,12 @@ class Queue
     end
   end
 
-  def save_html
-    Dir.mkdir("output") unless Dir.exists? "output"
-    template_letter = File.read "./data/form_letter.erb"
-    erb_template = ERB.new template_letter
-    form_letter = erb_template.result(binding)
-  end
+  # def save_html
+  #   Dir.mkdir("output") unless Dir.exists? "output"
+  #   template_letter = File.read "./data/form_letter.erb"
+  #   erb_template = ERB.new template_letter
+  #   form_letter = erb_template.result(binding)
+  # end
 
   def district_replacement
     @queued_attendees.each do |att|
@@ -88,7 +87,3 @@ class Queue
 end
 #
 q = Queue.new
-
-# q.queue("first_name", "john")
-#
-# q.save_html

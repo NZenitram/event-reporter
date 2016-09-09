@@ -1,8 +1,6 @@
-
 require './lib/load_file'
 require './lib/help_file'
 require './lib/queue'
-require 'pry'
 
 class Repl
   attr_reader :queue
@@ -12,7 +10,6 @@ class Repl
   end
 
   def run
-    line = '--------------------------------'
     command = ""
     while command != "quit"
       printf "Enter command, or type 'help' for a list of commands: "
@@ -84,7 +81,7 @@ class Repl
       command == "printby"
       @loaded.print_by(file)
     elsif
-      command == "save"
+      command == "saveto"
       if @loaded == nil
         @loaded.to_s
       elsif
