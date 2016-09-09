@@ -1,10 +1,10 @@
 require 'minitest/autorun'
 require 'minitest/pride'
 require 'pry'
-require './lib/attendees'
+require './lib/attendee'
 require './lib/load_file'
 
-class AttendeesTest < Minitest::Test
+class AttendeeTest < Minitest::Test
 
 
   def setup
@@ -22,8 +22,8 @@ class AttendeesTest < Minitest::Test
   end
 
   def test_will_return_downcase
-    assert_equal[:regdate], attendees.regdate
-    assert_equal[:first_name], attendees.first_name
+    assert_equal[:regdate], attendee.regdate
+    assert_equal[:first_name], attendee.first_name
   end
 
 end
