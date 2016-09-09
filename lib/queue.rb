@@ -1,9 +1,10 @@
 require 'csv'
 require 'json'
 require 'open-uri'
+require 'erb'
 require './lib/load_file'
 require './lib/cleaner'
-require './lib/attendees'
+require './lib/attendee'
 require 'pry'
 
 class Queue
@@ -16,18 +17,7 @@ class Queue
 
   def cleaned_data
       data.map do |row|
-      attendee = Attendees.new
-      attendee.regdate       = row[:regdate]
-      attendee.first_name    = Cleaner.clean_name(row[:first_name])
-      attendee.last_name     = Cleaner.clean_name(row[:last_name])
-      attendee.email_address = Cleaner.clean_name(row[:email_address])
-      attendee.homephone     = Cleaner.clean_phone(row[:homephone])
-      attendee.street        = Cleaner.clean_name(row[:street])
-      attendee.city          = Cleaner.clean_name(row[:city])
-      attendee.state         = Cleaner.clean_name(row[:state])
-      attendee.zipcode       = Cleaner.clean_zip(row[:zipcode])
-      attendee.district      = ""
-      attendee
+        Attendee.new(row)
     end
   end
 
@@ -81,6 +71,13 @@ class Queue
     end
   end
 
+  def save_html
+    Dir.mkdir("output") unless Dir.exists? "output"
+    template_letter = File.read "./data/form_letter.erb"
+    erb_template = ERB.new template_letter
+    form_letter = erb_template.result(binding)
+  end
+
   def district_replacement
     @queued_attendees.each do |att|
       url = "https://congress.api.sunlightfoundation.com/districts/locate?zip=#{att.zipcode}&apikey=e179a6973728c4dd3fb1204283aaccb5"
@@ -93,3 +90,5 @@ end
 q = Queue.new
 
 # q.queue("first_name", "john")
+#
+# q.save_html

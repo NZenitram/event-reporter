@@ -14,11 +14,10 @@ class LoadFileTest < Minitest::Test
   end
 
   def test_can_get_contents
-
     contents = LoadFile.new.contents
-
     assert_instance_of CSV::Table, contents
     assert_equal "11/12/08 10:47", contents[0][1]
+    refute_equal "12/12/08 11:47", contents[0][1]
   end
 
 

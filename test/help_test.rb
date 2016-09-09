@@ -11,12 +11,4 @@ class HelpFileTest < Minitest::Test
   def test_does_exist
     assert_instance_of HelpFile, @h
   end
-
-  def test_output_is_correct
-    
-  end
-
-
-
-
 end

@@ -1,6 +1,5 @@
 require 'csv'
 require 'pry'
-require './lib/attendees'
 require './lib/load_file'
 
 
